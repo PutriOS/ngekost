@@ -3,9 +3,10 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'crud', loadChildren: () => import('./crud/crud.module').then(m => m.CrudModule) },
+        { path: 'kamar', loadChildren: () => import('./kamar/kamar/kamar.module').then(m => m.KamarModule) },
+        { path: 'add-penghuni', loadChildren: () => import('./kamar/add-penghuni/add-penghuni.module').then(m => m.AddPenghuniModule) },
+        { path: 'penghuni', loadChildren: () => import('./penghuni/penghuni/penghuni.module').then(m => m.PenghuniModule) },
         { path: 'empty', loadChildren: () => import('./empty/emptydemo.module').then(m => m.EmptyDemoModule) },
-        { path: 'timeline', loadChildren: () => import('./timeline/timelinedemo.module').then(m => m.TimelineDemoModule) },
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

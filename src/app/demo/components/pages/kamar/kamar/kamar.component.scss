@@ -1,0 +1,65 @@
+::ng-deep {
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .form-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        label {
+            flex: 1;
+            margin-right: 1rem;
+            white-space: nowrap;
+        }
+
+        .form-control {
+            flex: 2;
+            width: 100%;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        p-dropdown.form-control {
+            .p-dropdown {
+                width: 100%;
+            }
+        }
+    }
+
+    p-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2.5rem;
+
+        button {
+            margin-left: 0.5rem;
+        }
+    }
+
+    .p-dialog-footer {
+        display: none;
+    }
+    
+    .dialog-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding: 0.5rem;
+    }
+    
+    .dialog-footer .p-button-text {
+        margin-left: 1rem; 
+    }
+    
+    .dialog-footer .p-button-text:first-of-type {
+        margin-left: 0; 
+    }
+    
+}

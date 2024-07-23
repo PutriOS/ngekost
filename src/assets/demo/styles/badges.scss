@@ -10,12 +10,12 @@
 }
 
 .product-badge {
-    &.status-instock {
+    &.status-available {
         background: #C8E6C9;
         color: #256029;
     }
 
-    &.status-outofstock {
+    &.status-unavailable {
         background: #FFCDD2;
         color: #C63737;
     }

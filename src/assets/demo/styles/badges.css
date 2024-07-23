@@ -9,14 +9,16 @@
   letter-spacing: 0.3px;
 }
 
-.product-badge.status-instock {
+.product-badge.status-available {
   background: #C8E6C9;
   color: #256029;
 }
-.product-badge.status-outofstock {
+
+.product-badge.status-unavailable {
   background: #FFCDD2;
   color: #C63737;
 }
+
 .product-badge.status-lowstock {
   background: #FEEDAF;
   color: #8A5340;
@@ -26,22 +28,27 @@
   background: #C8E6C9;
   color: #256029;
 }
+
 .customer-badge.status-unqualified {
   background: #FFCDD2;
   color: #C63737;
 }
+
 .customer-badge.status-negotiation {
   background: #FEEDAF;
   color: #8A5340;
 }
+
 .customer-badge.status-new {
   background: #B3E5FC;
   color: #23547B;
 }
+
 .customer-badge.status-renewal {
   background: #ECCFFF;
   color: #694382;
 }
+
 .customer-badge.status-proposal {
   background: #FFD8B2;
   color: #805B36;
@@ -51,14 +58,17 @@
   background: #C8E6C9;
   color: #256029;
 }
+
 .order-badge.order-cancelled {
   background: #FFCDD2;
   color: #C63737;
 }
+
 .order-badge.order-pending {
   background: #FEEDAF;
   color: #8A5340;
 }
+
 .order-badge.order-returned {
   background: #ECCFFF;
   color: #694382;

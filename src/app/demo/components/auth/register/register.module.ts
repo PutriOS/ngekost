@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginRoutingModule } from './login-routing.module';
-import { LoginComponent } from './login.component';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,11 +7,13 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import { RegisterRoutingModule } from './register-routing.module';
+import { RegisterComponent } from './register.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        LoginRoutingModule,
+        RegisterRoutingModule,
         ButtonModule,
         CheckboxModule,
         InputTextModule,
@@ -21,8 +21,8 @@ import { ToastModule } from 'primeng/toast';
         PasswordModule,
         ToastModule,
         ProgressSpinnerModule,
-        ReactiveFormsModule,
+        ReactiveFormsModule
     ],
-    declarations: [LoginComponent]
+    declarations: [RegisterComponent]
 })
-export class LoginModule { }
+export class RegisterModule { }

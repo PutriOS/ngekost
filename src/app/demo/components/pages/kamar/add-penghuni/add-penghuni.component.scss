@@ -1,0 +1,37 @@
+.field {
+    display: flex !important;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.field label {
+    flex: 0 0 20%; /* Adjust as needed */
+}
+
+.field input, .field p-dropdown {
+    flex: 1;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Space between buttons */
+}
+
+.button-container button {
+    width: auto;
+    padding: 10px 20px; /* Adjust padding for desired size */
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.custom-button {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

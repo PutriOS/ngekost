@@ -1,7 +1,6 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
+        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo' : 'logo'}}.png" alt="logo">
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -13,17 +12,23 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" (click)="showProfile($event)">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button>
     </div>
+
+    <!-- Profile OverlayPanel -->
+    <p-overlayPanel #profileOverlay [dismissable]="true" [showCloseIcon]="true">
+        <button pButton type="button" class="p-button font-bold" (click)="logout($event)">
+            <ng-container *ngIf="!loading; else loadingTemplate">
+                <i class="pi pi-sign-out" style="margin-right: .5rem;"></i>
+                <span class="p-button-label">Logout</span>
+            </ng-container>
+            <ng-template #loadingTemplate>
+                <i class="pi pi-spinner pi-spin" style="font-size: 1rem; margin-right: .5rem;"></i>
+                <span class="p-button-label">Logout</span>
+            </ng-template>
+        </button>
+    </p-overlayPanel>
 </div>

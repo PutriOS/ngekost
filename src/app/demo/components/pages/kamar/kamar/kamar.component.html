@@ -1,0 +1,176 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addNew()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="rooms" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['no','floor','roomNumber','monthlyPrice','yearlyPrice','roomStatus']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedRooms" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Daftar Kamar</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="floor">Lantai <p-sortIcon field="floor"></p-sortIcon></th>
+                        <th pSortableColumn="roomNumber">No. Kamar <p-sortIcon field="roomNumber"></p-sortIcon></th>
+                        <th pSortableColumn="monthlyPrice">Harga per Bulan <p-sortIcon field="monthlyPrice"></p-sortIcon></th>
+                        <th pSortableColumn="yearlyPrice">Harga per Tahun <p-sortIcon field="yearlyPrice"></p-sortIcon></th>
+                        <th pSortableColumn="roomStatus">Status Kamar <p-sortIcon field="roomStatus"></p-sortIcon></th>
+                        <th>Aksi</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-room>
+                    <tr>
+                        <td style="width:10%; min-width:10rem;">
+                            <span class="p-column-title">Lantai</span>
+                            {{room.floor}}
+                        </td>
+                        <td style="width:10%; min-width:10rem;">
+                            <span class="p-column-title">No. Kamar</span>
+                            {{room.roomNumber}}
+                        </td>
+                        <td style="width:17%; min-width:10rem;">
+                            <span class="p-column-title">Harga</span>
+                            {{room.price | currency:'Rp '}}
+                        </td>
+                        <td style="width:24%; min-width:10rem;">
+                            <span class="p-column-title">Fasilitas</span>
+                            {{room.facilities}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Status Kamar</span>
+                            <span [class]="'product-badge status-' + room.status.toLowerCase()">{{room.status}}</span>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-info mr-2" (click)="openNew(room)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editRoom(room)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRoom(room)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>                
+            </p-table>
+        </div>
+        
+        <!-- <p-dialog header="Kamar" [(visible)]="roomDialog" modal="modal" [style]="{width: '500px'}" [responsive]="true">
+            <form [formGroup]="roomForm" (ngSubmit)="saveRoom()">
+                <div class="p-fluid form-container">
+                    <div class="p-field form-row">
+                        <label for="floor">Floor</label>
+                        <input id="floor" pInputText formControlName="floor" class="form-control" />
+                    </div>
+                    <div class="p-field form-row">
+                        <label for="roomNumber">Room Number</label>
+                        <input id="roomNumber" pInputText formControlName="roomNumber" class="form-control" />
+                    </div>
+                    <div class="p-field form-row">
+                        <label for="price">Price</label>
+                        <input id="price" pInputText formControlName="price" class="form-control" />
+                    </div>
+                    <div class="p-field form-row">
+                        <label for="facilities">Facilities</label>
+                        <textarea id="facilities" pInputTextarea formControlName="facilities" class="form-control"></textarea>
+                    </div>
+                    <div class="p-field form-row">
+                        <label for="status">Status</label>
+                        <p-dropdown id="status" [options]="status" formControlName="status" class="form-control"></p-dropdown>
+                    </div>
+                </div>
+                <p-footer>
+                    <button type="button" pButton label="Cancel" icon="pi pi-times" class="p-button-danger" (click)="roomDialog = false"></button>
+                    <button type="submit" pButton label="Save" icon="pi pi-check" [disabled]="isLoading"></button>
+                </p-footer>
+            </form>
+        </p-dialog> -->
+
+        <!-- Dialog untuk Membuat Kamar Baru -->
+<p-dialog header="Tambah Kamar Baru" [(visible)]="createRoomDialog" modal="modal" [style]="{width: '500px'}" [responsive]="true">
+    <form [formGroup]="roomForm" (ngSubmit)="createRoom()">
+        <div class="p-fluid form-container">
+            <div class="p-field form-row">
+                <label for="floor">Floor</label>
+                <input id="floor" pInputText formControlName="floor" class="form-control" />
+            </div>
+            <div class="p-field form-row">
+                <label for="roomNumber">Room Number</label>
+                <input id="roomNumber" pInputText formControlName="roomNumber" class="form-control" />
+            </div>
+            <div class="p-field form-row">
+                <label for="price">Price</label>
+                <input id="price" pInputText formControlName="price" class="form-control" />
+            </div>
+            <div class="p-field form-row">
+                <label for="facilities">Facilities</label>
+                <textarea id="facilities" pInputTextarea formControlName="facilities" class="form-control"></textarea>
+            </div>
+            <div class="p-field form-row">
+                <label for="status">Status</label>
+                <p-dropdown id="status" [options]="status" formControlName="status" class="form-control"></p-dropdown>
+            </div>
+        </div>
+        <p-footer>
+            <button type="button" pButton label="Cancel" icon="pi pi-times" class="p-button-danger" (click)="createRoomDialog = false"></button>
+            <button type="submit" pButton label="Save" icon="pi pi-check" [disabled]="isLoading"></button>
+        </p-footer>
+    </form>
+</p-dialog>
+
+<!-- Dialog untuk Memperbarui Kamar -->
+<p-dialog header="Edit Kamar" [(visible)]="updateRoomDialog" modal="modal" [style]="{width: '500px'}" [responsive]="true">
+    <form [formGroup]="roomForm" (ngSubmit)="updateRoom()">
+        <div class="p-fluid form-container">
+            <div class="p-field form-row">
+                <label for="floor">Floor</label>
+                <input id="floor" pInputText formControlName="floor" class="form-control" />
+            </div>
+            <div class="p-field form-row">
+                <label for="roomNumber">Room Number</label>
+                <input id="roomNumber" pInputText formControlName="roomNumber" class="form-control" [readonly]="true"/>
+            </div>
+            <div class="p-field form-row">
+                <label for="price">Price</label>
+                <input id="price" pInputText formControlName="price" class="form-control" />
+            </div>
+            <div class="p-field form-row">
+                <label for="facilities">Facilities</label>
+                <textarea id="facilities" pInputTextarea formControlName="facilities" class="form-control"></textarea>
+            </div>
+            <div class="p-field form-row">
+                <label for="status">Status</label>
+                <p-dropdown id="status" [options]="status" formControlName="status" class="form-control"></p-dropdown>
+            </div>
+        </div>
+        <p-footer>
+            <button type="button" pButton label="Cancel" icon="pi pi-times" class="p-button-danger" (click)="updateRoomDialog = false"></button>
+            <button type="submit" pButton label="Save" icon="pi pi-check" [disabled]="isLoading"></button>
+        </p-footer>
+    </form>
+</p-dialog>
+
+        
+        <p-dialog [(visible)]="deleteRoomDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="room">Are you sure you want to delete room number <b>{{room.roomNumber}}</b>?</span>
+            </div>
+            <div class="dialog-footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteRoomDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </div>
+        </p-dialog>
+        
+
+    </div>
+</div>

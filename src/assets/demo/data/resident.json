@@ -1,0 +1,19 @@
+{
+    "data": [
+      {
+        "id": "a1b2c3",
+        "noKamar": "1",
+        "nama": "John Doe",
+        "noHP": "08123456789",
+        "masaHuni": "3 bulan"
+      },
+      {
+        "id": "d4e5f6",
+        "noKamar": "2",
+        "nama": "Jane Smith",
+        "noHP": "08234567890",
+        "masaHuni": "4 bulan"
+      }
+    ]
+  }
+  

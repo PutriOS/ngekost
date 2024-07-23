@@ -1,0 +1,108 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+
+            <p-table #dt [value]="residents" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['noKamar','nama','noHP','masaHuni','piutang']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} entri" [(selection)]="selectedResidents" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Daftar Penghuni</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="no">No. <p-sortIcon field="no"></p-sortIcon></th>
+                        <th pSortableColumn="noKamar">No. Kamar <p-sortIcon field="noKamar"></p-sortIcon></th>
+                        <th pSortableColumn="nama">Nama <p-sortIcon field="nama"></p-sortIcon></th>
+                        <th pSortableColumn="noHP">No. HP <p-sortIcon field="noHP"></p-sortIcon></th>
+                        <th pSortableColumn="masaHuni">Masa Huni <p-sortIcon field="masaHuni"></p-sortIcon></th>
+                        <!-- <th pSortableColumn="piutang">Piutang <p-sortIcon field="piutang"></p-sortIcon></th> -->
+                        <th>Aksi</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-resident let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="resident"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ resident.noKamar }}</td>
+                        <td>{{ resident.nama }}</td>
+                        <td>{{ resident.noHP }}</td>
+                        <td>{{ resident.masaHuni }}</td>
+                        <!-- <td>{{ resident.piutang | currency:'Rp ' }}</td> -->
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editResident(resident)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteResident(resident)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="residentDialog" [style]="{width: '450px'}" header="Detail Penghuni" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="noKamar">No. Kamar</label>
+                    <input type="text" pInputText id="noKamar" [(ngModel)]="resident.noKamar" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !resident.noKamar}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !resident.noKamar">No. Kamar is required.</small>
+                </div>
+                <div class="field">
+                    <label for="nama">Nama</label>
+                    <input type="text" pInputText id="nama" [(ngModel)]="resident.nama" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !resident.nama}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !resident.nama">Nama is required.</small>
+                </div>
+                <div class="field">
+                    <label for="noHP">No. HP</label>
+                    <input type="text" pInputText id="noHP" [(ngModel)]="resident.noHP" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !resident.noHP}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !resident.noHP">No. HP is required.</small>
+                </div>
+                <div class="field">
+                    <label for="masaHuni">Masa Huni</label>
+                    <input type="text" pInputText id="masaHuni" [(ngModel)]="resident.masaHuni" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !resident.masaHuni}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !resident.masaHuni">Masa Huni is required.</small>
+                </div>
+                <div class="field">
+                    <label for="piutang">Piutang</label>
+                    <input type="text" pInputText id="piutang" [(ngModel)]="resident.piutang" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !resident.piutang}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !resident.piutang">Piutang is required.</small>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveResident()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteResidentDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="resident">Are you sure you want to delete <b>{{resident.nama}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteResidentDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteResidentsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected residents?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteResidentsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="card">
+  <h5>Tambah Penghuni</h5>
+  <form (ngSubmit)="onSubmit()" #penghuniForm="ngForm">
+      <div class="p-fluid">
+          <div class="field p-d-flex p-ai-center">
+              <label for="roomNumber" class="p-mr-2">No. Kamar</label>
+              <input type="text" id="roomNumber" pInputText [(ngModel)]="penghuni.roomNumber" name="roomNumber" readonly />
+          </div>
+          <div class="field p-d-flex p-ai-center">
+              <label for="monthlyPrice" class="p-mr-2">Harga Kamar per Bulan</label>
+              <input type="text" id="monthlyPrice" pInputText [(ngModel)]="penghuni.monthlyPrice" name="monthlyPrice" readonly />
+          </div>
+          <div class="field p-d-flex p-ai-center">
+              <label for="namaLengkap" class="p-mr-2">Nama Lengkap</label>
+              <input type="text" id="namaLengkap" pInputText [(ngModel)]="penghuni.nama" name="nama" required />
+          </div>
+          <div class="field p-d-flex p-ai-center">
+              <label for="alamatAsal" class="p-mr-2">Alamat </label>
+              <input type="text" id="alamatAsal" pInputText [(ngModel)]="penghuni.alamatAsal" name="alamatAsal" required />
+          </div>
+          <div class="field p-d-flex p-ai-center">
+              <label for="noTelp" class="p-mr-2">No. Telp/HP</label>
+              <input type="text" id="noTelp" pInputText [(ngModel)]="penghuni.noHP" name="noHP" required />
+          </div>
+          <div class="field p-d-flex p-ai-center">
+              <label for="masaHuni" class="p-mr-2">Masa Huni</label>
+              <p-dropdown [options]="months" [(ngModel)]="penghuni.masaHuni" name="masaHuni" (onChange)="calculateTotal()"></p-dropdown>
+          </div>
+          <div class="field p-d-flex p-ai-center">
+              <label for="jumlahHarusDibayar" class="p-mr-2">Jumlah Harus Dibayar</label>
+              <input type="text" id="jumlahHarusDibayar" pInputText [(ngModel)]="penghuni.jumlahHarusDibayar" name="jumlahHarusDibayar" readonly />
+          </div>
+          <div class="p-d-flex p-jc-end p-mt-3 button-container">
+              <button pButton pRipple type="button" label="Reset" class="custom-button p-button-secondary" (click)="resetForm(penghuniForm)"></button>
+              <button pButton pRipple type="submit" label="Submit" class="custom-button p-button-primary p-ml-2" [disabled]="!penghuniForm.valid"></button>
+          </div>
+          
+      </div>
+  </form>
+</div>
